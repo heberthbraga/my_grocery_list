@@ -37,8 +37,8 @@
 .byebug_history
 .vscode/launch.json
 qa/gauge/reports/html-report
-.env
 .env.*
+.ruby-*
 .vscode
 .DS_Store
 qa/gauge/target

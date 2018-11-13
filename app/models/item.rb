@@ -1,5 +1,6 @@
 class Item < ApplicationRecord
-  
+  include Activable
+
   has_many :grocery_items
   has_many :greocery_stores, through: :grocery_items
 

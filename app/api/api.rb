@@ -7,6 +7,6 @@ class API < Grape::API
 
   rescue_from :all, :backtrace => true
 
-  mount Grocery::Base
+  mount Grocery::V1::Base
   
 end

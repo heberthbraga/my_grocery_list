@@ -5,3 +5,15 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+# Creates default Roles
+
+api_role = Role.find_by(name: Role.api)
+
+if api_role.nil?
+  puts "Create API Role"
+  api_role.name = Role.api
+  api_role.position = 0
+  api_role.save!
+end
+

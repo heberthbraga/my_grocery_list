@@ -1,4 +1,5 @@
 class Category < ApplicationRecord
+  include Activable
 
   has_many :item_categories
   has_many :items, through: :item_categories

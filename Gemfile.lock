@@ -49,6 +49,7 @@ GEM
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
+    bcrypt (3.1.12)
     bootsnap (1.3.2)
       msgpack (~> 1.0)
     builder (3.2.3)
@@ -81,10 +82,10 @@ GEM
       railties (>= 3.2, < 6.0)
     equalizer (0.0.11)
     erubi (1.7.1)
-    factory_girl (4.9.0)
+    factory_bot (4.11.1)
       activesupport (>= 3.0.0)
-    factory_girl_rails (4.9.0)
-      factory_girl (~> 4.9.0)
+    factory_bot_rails (4.11.1)
+      factory_bot (~> 4.11.1)
       railties (>= 3.0.0)
     faker (1.9.1)
       i18n (>= 0.7)
@@ -102,6 +103,13 @@ GEM
       rack (>= 1.3.0)
       rack-accept
       virtus (>= 1.0.0)
+    grape-entity (0.7.1)
+      activesupport (>= 4.0)
+      multi_json (>= 1.3.2)
+    grape-swagger (0.31.1)
+      grape (>= 0.16.2)
+    grape-swagger-rails (0.3.0)
+      railties (>= 3.2.12)
     guard (2.14.2)
       formatador (>= 0.2.4)
       listen (>= 2.7, < 4.0)
@@ -137,10 +145,12 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2018.0812)
     mimemagic (0.3.2)
+    mini_magick (4.9.2)
     mini_mime (1.0.1)
     mini_portile2 (2.3.0)
     minitest (5.11.3)
     msgpack (1.2.4)
+    multi_json (1.13.1)
     mustermann (1.0.3)
     mustermann-grape (1.0.0)
       mustermann (~> 1.0.0)
@@ -191,6 +201,7 @@ GEM
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
     regexp_parser (1.2.0)
+    rmagick (2.16.0)
     rspec (3.8.0)
       rspec-core (~> 3.8.0)
       rspec-expectations (~> 3.8.0)
@@ -258,22 +269,28 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt (~> 3.1.7)
   bootsnap (>= 1.1.0)
   byebug
   capybara
   carrierwave
   database_cleaner
   dotenv-rails
-  factory_girl_rails
+  factory_bot_rails (~> 4.0)
   faker
   fantaskspec
   grape
+  grape-entity
+  grape-swagger
+  grape-swagger-rails
   guard-rspec (~> 4.7)
   listen (>= 3.0.5, < 3.2)
+  mini_magick
   pg
   puma (~> 3.11)
   rails (~> 5.2.1)
   rb-fsevent
+  rmagick
   rspec-activemodel-mocks
   rspec-rails
   simplecov
