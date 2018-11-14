@@ -2,44 +2,53 @@ require 'rails_helper'
 
 describe API::Authentication, type: :service do
 
-  context 'When access token does not exist' do
-    subject(:authenticate) { described_class.new(nil) }
+  let(:username) { Faker::Name.first_name }
+  let(:password) { Faker::Internet.password(8) }
 
-    it 'raises an error' do
+  context 'when user does not exist' do
+    subject(:authenticate) { described_class.new(username, password) }
+
+    it 'raises an exception' do
       expect {
         authenticate.call
-      }.to raise_error(UnauthorizedError)
+      }.to raise_error(AuthenticationError)
     end
   end
 
-  context 'When access token has expired' do
+  context 'when password does not match' do
     let(:user) { create(:api_user) }
-    let(:api_key) { create(:api_key, user: user) }
 
-    subject(:authenticate) { described_class.new(api_key.access_token) }
+    subject(:authenticate) { described_class.new(user.email, password) }
 
-    before do
-      allow_any_instance_of(ApiKey).to receive(:expired?).and_return(true)
-    end
-
-    it 'raises an error' do
+    it 'raises an exception' do
       expect {
         authenticate.call
-      }.to raise_error(UnauthorizedError)
+      }.to raise_error(AuthenticationError)
     end
   end
 
-  context 'When access token exists and hasn\'t expired yet' do
+  context 'when the user has not api role' do
+    let(:role) { create(:role, name: 'Client', position: 1) }
+    let(:user) { create(:user, role: role, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, password: Faker::Internet.password(8)) }
+    
+    subject(:authenticate) { described_class.new(user.email, user.password) }
+
+    it 'raises an exception' do
+      expect {
+        authenticate.call
+      }.to raise_error(AuthenticationError)
+    end
+  end
+
+  context 'when user is authenticated successfully' do
     let(:user) { create(:api_user) }
-    let(:api_key) { create(:api_key, user: user) }
 
-    subject(:authenticate) { described_class.new(api_key.access_token) }
+    subject(:authenticate) { described_class.new(user.email, user.password) }
 
-    it 'return the authenticated user' do
-      current_user = authenticate.call
+    it 'returns the access token' do
+      response = authenticate.call
 
-      expect(current_user).not_to be_nil
-      expect(current_user.id).to eq user.id
+      expect(response[:token]).not_to be_nil
     end
   end
 end

@@ -1,22 +1,34 @@
 class Grocery::V1::Authenticate < Grape::API
 
-  desc "Creates and returns access_token if login and password are valid"
+  desc "Creates and returns a token if login and password are valid" do
+    detail "
+      INPUT:
+
+      {
+        \"username\": (email),
+        \"password\": (password)
+      }
+
+      RESPONSE: 
+
+      {
+        \"token\": (access_token)
+      }
+    "
+  end
   params do
     requires :username, type: String, desc: "Username or Email address"
     requires :password, type: String, desc: "Password"
   end
 
   post :login do
-    existing_user = User.find_by(email: params[:username])
+    begin
+      authenticate = API::Authentication.new(params[:username], params[:password])
+      response = authenticate.call
 
-    if existing_user && existing_user.valid_password?(params[:password]) && existing_user.api?
-      key = ApiKey.create(user_id: user.id)
-
-      { 
-        token: key.access_token
-      }
-    else
-      error!('Failed to authenticate user.', 401)
+      present response, with: Grocery::V1::Entities::AuthenticationResponseEntity
+    rescue ExceptionService => ex
+      error!({status: 'error', message: ex.message}, 401)
     end
   end
 end

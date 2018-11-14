@@ -2,10 +2,10 @@ require "grape-swagger"
 
 class Grocery::V1::Base < Grape::API
   prefix :api
-  version 'v1', using: :header, vendor: 'grocery'
+  version 'v1', using: :path
 
   helpers do
-    def authenticate!
+    def authorize!
       authorization_header = request.headers['Authorization']
       error!({status: 'error', message: 'Authentication token not found.'}, 401) if authorization_header.nil?
 
@@ -13,9 +13,9 @@ class Grocery::V1::Base < Grape::API
       error!({status: 'error', message: 'Authentication token not found.'}, 401) if authorization_token.nil?
 
       begin
-        authenticate = API::Authentication.new(params[:token])
-        @current_user = authenticate.call
-      rescue ServiceException => ex
+        authorize = API::Authorization.new(params[:token])
+        @current_user = authorize.call
+      rescue ExceptionService => ex
         error!({status: 'error', message: ex.message}, 401)
       end
     end
@@ -27,7 +27,17 @@ class Grocery::V1::Base < Grape::API
 
   namespace :secured do
     before do
-      authenticate!
+      authorize!
     end
   end
+
+  add_swagger_documentation( 
+    api_version: 'v1',
+   
+    info: {
+      title: "My Grocery List",
+      description: "List and manipulate grocery items from different stores in order to compare prices."
+    },
+    hide_documentation_path: true        
+  )
 end

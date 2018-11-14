@@ -1,24 +1,27 @@
-UnauthorizedError = Class.new(StandardError)
+AuthenticationError = Class.new(StandardError)
 
 class API::Authentication < ApplicationService
 
-  def initialize(access_token)
-    @access_token = access_token
+  def initialize(username, password)
+    @username = username
+    @password = password
   end
 
   def call
-    current_user = nil
+    Rails.logger.debug "API::Authentication = Authenticating user #{@username}"
 
-    api_key = ApiKey.find_by(access_token: @access_token)
+    existing_user = User.find_by(email: @username)
 
-    if api_key && !api_key.expired?
-      current_user = User.find_by(id: api_key.user_id, active: true)
-    end
+    if existing_user && existing_user.authenticate(@password) && existing_user.api?
+      key = ApiKey.create(user_id: existing_user.id)
 
-    if current_user.present? && current_user.api?
-      return current_user
+      Rails.logger.debug "API::Authentication = User authenticated with Key #{key.inspect}"
+
+      {
+        token: key.access_token
+      }
     else
-      raise UnauthorizedError.new('Unauthorized. Invalid or expired token.')
+      raise AuthenticationError.new('Failed to authenticate user.')
     end
   end
 end
