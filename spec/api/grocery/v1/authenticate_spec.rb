@@ -32,8 +32,10 @@ describe Grocery::V1::Authenticate do
 
         response_hash = JSON.parse(body)
 
-        expect(response_hash["error"]).not_to be_nil
-        expect(response_hash["error"]).to include 'Failed to authenticate user'
+        expect(response_hash["status"]).not_to be_nil
+        expect(response_hash["status"]).to eq 'error'
+        expect(response_hash["message"]).not_to be_nil
+        expect(response_hash["message"]).to include 'Failed to authenticate user'
       end
     end
   end

@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 2018_11_12_163425) do
     t.string "name"
     t.string "website"
     t.string "fantasy_name"
+    t.string "logo"
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -12,8 +12,9 @@ api_role = Role.find_by(name: Role.api)
 
 if api_role.nil?
   puts "Create API Role"
-  api_role.name = Role.api
-  api_role.position = 0
-  api_role.save!
+  role = Role.new
+  role.name = Role.api
+  role.position = 0
+  role.save!
 end
 

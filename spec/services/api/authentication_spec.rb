@@ -6,47 +6,39 @@ describe API::Authentication, type: :service do
   let(:password) { Faker::Internet.password(8) }
 
   context 'when user does not exist' do
-    subject(:authenticate) { described_class.new(username, password) }
-
     it 'raises an exception' do
       expect {
-        authenticate.call
-      }.to raise_error(AuthenticationError)
+        described_class.call(username, password)
+      }.to raise_error(ExceptionService)
     end
   end
 
   context 'when password does not match' do
     let(:user) { create(:api_user) }
 
-    subject(:authenticate) { described_class.new(user.email, password) }
-
     it 'raises an exception' do
       expect {
-        authenticate.call
-      }.to raise_error(AuthenticationError)
+        described_class.call(user.email, password)
+      }.to raise_error(ExceptionService)
     end
   end
 
   context 'when the user has not api role' do
     let(:role) { create(:role, name: 'Client', position: 1) }
     let(:user) { create(:user, role: role, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, password: Faker::Internet.password(8)) }
-    
-    subject(:authenticate) { described_class.new(user.email, user.password) }
 
     it 'raises an exception' do
       expect {
-        authenticate.call
-      }.to raise_error(AuthenticationError)
+        described_class.call(user.email, user.password)
+      }.to raise_error(ExceptionService)
     end
   end
 
   context 'when user is authenticated successfully' do
     let(:user) { create(:api_user) }
 
-    subject(:authenticate) { described_class.new(user.email, user.password) }
-
     it 'returns the access token' do
-      response = authenticate.call
+      response = described_class.call(user.email, user.password)
 
       expect(response[:token]).not_to be_nil
     end

@@ -1,5 +1,3 @@
-AuthenticationError = Class.new(StandardError)
-
 class API::Authentication < ApplicationService
 
   def initialize(username, password)
@@ -21,7 +19,7 @@ class API::Authentication < ApplicationService
         token: key.access_token
       }
     else
-      raise AuthenticationError.new('Failed to authenticate user.')
+      raise ExceptionService.new('Failed to authenticate user.')
     end
   end
 end

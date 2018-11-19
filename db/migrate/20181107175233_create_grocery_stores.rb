@@ -4,6 +4,7 @@ class CreateGroceryStores < ActiveRecord::Migration[5.2]
       t.string :name
       t.string :website
       t.string :fantasy_name
+      t.string :logo
       t.boolean :active, default: true
 
       t.timestamps null: false

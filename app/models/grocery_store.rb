@@ -1,8 +1,10 @@
 class GroceryStore < ApplicationRecord
   include Activable
-
+  
   has_many :grocery_items
   has_many :items, through: :grocery_items
+
+  mount_uploader :picture, ImageUploader
 
   default_scope { order(:created_at) }
 

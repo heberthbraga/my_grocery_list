@@ -6,15 +6,8 @@ class Grocery::V1::Base < Grape::API
 
   helpers do
     def authorize!
-      authorization_header = request.headers['Authorization']
-      error!({status: 'error', message: 'Authentication token not found.'}, 401) if authorization_header.nil?
-
-      authorization_token = authorization_header.split(' ').last
-      error!({status: 'error', message: 'Authentication token not found.'}, 401) if authorization_token.nil?
-
       begin
-        authorize = API::Authorization.new(params[:token])
-        @current_user = authorize.call
+        @current_user = API::Authorization.call params[:token]
       rescue ExceptionService => ex
         error!({status: 'error', message: ex.message}, 401)
       end
@@ -29,6 +22,10 @@ class Grocery::V1::Base < Grape::API
     before do
       authorize!
     end
+
+    mount GroceryStore
+    mount Category
+    mount Item
   end
 
   add_swagger_documentation( 

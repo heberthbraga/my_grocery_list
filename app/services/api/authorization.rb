@@ -1,5 +1,3 @@
-UnauthorizedError = Class.new(StandardError)
-
 class API::Authorization < ApplicationService
 
   def initialize(access_token)
@@ -18,7 +16,7 @@ class API::Authorization < ApplicationService
     if current_user.present? && current_user.api?
       return current_user
     else
-      raise UnauthorizedError.new('Unauthorized. Invalid or expired token.')
+      raise ExceptionService.new('Unauthorized. Invalid or expired token.')
     end
   end
 end

@@ -23,12 +23,13 @@ class Grocery::V1::Authenticate < Grape::API
 
   post :login do
     begin
-      authenticate = API::Authentication.new(params[:username], params[:password])
-      response = authenticate.call
+      response = API::Authentication.call params[:username], params[:password]
 
       present response, with: Grocery::V1::Entities::AuthenticationResponseEntity
     rescue ExceptionService => ex
       error!({status: 'error', message: ex.message}, 401)
+    rescue Exception => e
+      error!({status: 'error', message: e.message}, 500)
     end
   end
 end
