@@ -64,4 +64,26 @@ describe GroceryStoreRepository, type: :repository do
       end
     end
   end
+
+  describe '#update' do
+    context 'when updating a Store with success' do
+      let(:grocery_store) { create(:grocery_store) }
+      
+      let(:request) {
+        {
+          name: 'Lorem',
+          fantasy_name: 'lorem'
+        }
+      }
+  
+      it 'returns the updated store' do
+        existing_store = grocery_store_repository.update grocery_store.id, request
+  
+        expect(existing_store).not_to be_nil
+        expect(existing_store.persisted?).to eq true
+        expect(existing_store.name).not_to be_nil
+        expect(existing_store.name).not_to eq grocery_store.name
+      end
+    end
+  end
 end

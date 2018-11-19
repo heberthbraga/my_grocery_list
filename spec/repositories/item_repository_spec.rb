@@ -63,4 +63,29 @@ describe ItemRepository, type: :repository do
     end
   end
 
+  describe '#update' do
+    context 'when updating an Item with success' do
+      let(:category_one) { create(:category) }
+      let(:category_two) { create(:category) }
+
+      let(:item) { create(:item, category_ids: [category_one.id]) }
+      
+      let(:request) {
+        {
+          name: 'Lorem',
+          category_ids: [category_two.id]
+        }
+      }
+  
+      it 'returns the updated store' do
+        existing_item = item_repository.update item.id, request
+  
+        expect(existing_item).not_to be_nil
+        expect(existing_item.persisted?).to eq true
+        expect(existing_item.name).not_to be_nil
+        expect(existing_item.name).not_to eq item.name
+      end
+    end
+  end
+
 end

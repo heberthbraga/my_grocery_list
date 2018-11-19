@@ -13,17 +13,17 @@ describe Grocery::V1::Category do
         }
        }
 
-      it 'returns the created category' do
+      it 'returns the created category hash' do
         post "/api/v1/secured/categories?token=#{@token}", params: request
 
         expect(response).not_to be_nil
         body = response.body
         expect(body).not_to be_nil
 
-        category = JSON.parse(body)
+        category_hash = JSON.parse(body)
 
-        expect(category).not_to be_nil
-        expect(category['id']).not_to be_nil
+        expect(category_hash).not_to be_nil
+        expect(category_hash['id']).not_to be_nil
       end
     end
   end
@@ -35,7 +35,7 @@ describe Grocery::V1::Category do
         create_list(:category, 10)
       end
 
-      it 'returns an array of categories' do
+      it 'returns an array of categories hash' do
         get "/api/v1/secured/categories?token=#{@token}"
 
         expect(response).not_to be_nil
@@ -44,9 +44,37 @@ describe Grocery::V1::Category do
 
         expect(body).not_to be_nil
 
-        categories = JSON.parse(body)
+        categories_hash = JSON.parse(body)
 
-        expect(categories.size).to eq 10
+        expect(categories_hash.size).to eq 10
+      end
+    end
+  end
+
+  describe 'PUT /api/v1/secured/categories/:id' do
+
+    context 'when updating an existing category' do
+      let(:category) { create(:category) }
+      
+      let(:request) {
+        {
+          name: 'Lorem'
+        }
+      }
+
+      it 'returns the updated category hash' do
+        put "/api/v1/secured/categories/#{category.id}?token=#{@token}", params: request
+
+        expect(response).not_to be_nil
+        body = response.body
+        expect(body).not_to be_nil
+
+        category_hash = JSON.parse(body)
+
+        expect(category_hash).not_to be_nil
+        expect(category_hash['id']).not_to be_nil
+        expect(category_hash['name']).not_to be_nil
+        expect(category_hash['name']).not_to eq category.name
       end
     end
   end

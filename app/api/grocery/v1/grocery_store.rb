@@ -68,6 +68,32 @@ class Grocery::V1::GroceryStore < Grape::API
         error!({status: 'error', message: e.message}, 500)
       end
     end
+
+    desc "Update a grocery Store"
+    params do
+      requires :name, type: String, desc: 'Store name'
+      requires :fantasy_name, type: String, desc: "Store's fantasy name"
+      optional :website, type: String, desc: "Store's website"
+    end
+    put "/:id", http_codes: [
+      [200, "Ok"],
+      [401, "Unauthorized"],
+      [404, "Not Found"],
+      [500, "Internal Server Error"]
+    ] do
+      begin
+        request = Grocery::V1::Requests::GroceryStoreRequest.call params
+
+        grocery_store_repository = GroceryStoreRepository.new
+        grocery_store = grocery_store_repository.update params[:id], request
+
+        present grocery_store, with: Grocery::V1::Entities::GroceryStoreResponseEntity
+      rescue ExceptionService => ex
+        error!({status: 'error', message: ex.message}, 401)
+      rescue Exception => e
+        error!({status: 'error', message: e.message}, 500)
+      end
+    end
   end
 
 end

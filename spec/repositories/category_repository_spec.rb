@@ -60,4 +60,25 @@ describe CategoryRepository, type: :repository do
       end
     end
   end
+
+  describe '#update' do
+    context 'when updating a Category with success' do
+      let(:category) { create(:category) }
+      
+      let(:request) {
+        {
+          name: 'Lorem'
+        }
+      }
+  
+      it 'returns the updated category' do
+        existing_category = category_repository.update category.id, request
+  
+        expect(existing_category).not_to be_nil
+        expect(existing_category.persisted?).to eq true
+        expect(existing_category.name).not_to be_nil
+        expect(existing_category.name).not_to eq category.name
+      end
+    end
+  end
 end
