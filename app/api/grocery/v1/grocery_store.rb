@@ -12,6 +12,12 @@ class Grocery::V1::GroceryStore < Grape::API
       requires :name, type: String, desc: 'Store name'
       requires :fantasy_name, type: String, desc: "Store's fantasy name"
       optional :website, type: String, desc: "Store's website"
+      optional :address, type: Hash do
+        optional :street, type: String, desc: "Address street"
+        optional :city, type: String, desc: "Address city"
+        optional :state, type: String, desc: "Address state"
+        optional :zip, type: String, desc: "Address zip code"
+      end
     end
     post "/", http_codes: [
       [200, "Ok"],
@@ -24,7 +30,7 @@ class Grocery::V1::GroceryStore < Grape::API
 
         grocery_store_repository = GroceryStoreRepository.new
         grocery_store = grocery_store_repository.create request
-
+        
         present grocery_store, with: Grocery::V1::Entities::GroceryStoreResponseEntity
       rescue ExceptionService => ex
         error!({status: 'error', message: ex.message}, 401)
@@ -76,6 +82,12 @@ class Grocery::V1::GroceryStore < Grape::API
       requires :name, type: String, desc: 'Store name'
       requires :fantasy_name, type: String, desc: "Store's fantasy name"
       optional :website, type: String, desc: "Store's website"
+      optional :address, type: Hash do
+        optional :street, type: String, desc: "Address street"
+        optional :city, type: String, desc: "Address city"
+        optional :state, type: String, desc: "Address state"
+        optional :zip, type: String, desc: "Address zip code"
+      end
     end
     put "/:id", http_codes: [
       [200, "Ok"],

@@ -51,4 +51,12 @@ module Persistable
 
     target_object
   end
+
+  def destroy(id)
+    Rails.logger.debug "Repositories::Persistable#destroy = Destroying #{self.class.object} #{id}"
+
+    target_object = self.class.object.find(id)
+
+    target_object.destroy
+  end
 end

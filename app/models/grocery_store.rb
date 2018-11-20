@@ -3,8 +3,12 @@ class GroceryStore < ApplicationRecord
   
   has_many :grocery_items
   has_many :items, through: :grocery_items
+  
+  has_one :address, as: :addressable, dependent: :destroy
 
   mount_uploader :picture, ImageUploader
+
+  accepts_nested_attributes_for :address
 
   default_scope { order(:created_at) }
 

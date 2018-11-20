@@ -10,7 +10,13 @@ describe Grocery::V1::GroceryStore do
         {
           name: Faker::Company.name,
           fantasy_name: Faker::Name.unique.first_name,
-          website: Faker::Internet.url
+          website: Faker::Internet.url,
+          address: {
+            street: Faker::Address.street_address,
+            city: Faker::Address.city,
+            state: Faker::Address.state_abbr,
+            zip: Faker::Address.zip_code
+          } 
         }
        }
 

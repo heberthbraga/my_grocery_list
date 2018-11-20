@@ -6,7 +6,7 @@ class Item < ApplicationRecord
   attr_accessor :category_ids
 
   has_many :grocery_items, dependent: :destroy
-  has_many :greocery_stores, through: :grocery_items
+  has_many :grocery_stores, through: :grocery_items
 
   has_many :item_categories, dependent: :destroy
   has_many :categories, through: :item_categories

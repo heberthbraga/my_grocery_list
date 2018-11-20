@@ -47,12 +47,12 @@ ActiveRecord::Schema.define(version: 2018_11_12_163425) do
   end
 
   create_table "grocery_items", force: :cascade do |t|
-    t.bigint "greocery_store_id"
+    t.bigint "grocery_store_id"
     t.bigint "item_id"
     t.decimal "price", precision: 10, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["greocery_store_id"], name: "index_grocery_items_on_greocery_store_id"
+    t.index ["grocery_store_id"], name: "index_grocery_items_on_grocery_store_id"
     t.index ["item_id"], name: "index_grocery_items_on_item_id"
   end
 

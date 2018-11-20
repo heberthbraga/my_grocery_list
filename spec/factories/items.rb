@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :item do
-    name        { Faker::Lorem.unique.word.upcase }
-    picture     { nil }
+    name         { Faker::Lorem.unique.word.upcase }
+    picture      { nil }
   end
 end
