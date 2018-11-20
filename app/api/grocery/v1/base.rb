@@ -4,15 +4,7 @@ class Grocery::V1::Base < Grape::API
   prefix :api
   version 'v1', using: :path
 
-  helpers do
-    def authorize!
-      begin
-        @current_user = API::Authorization.call params[:token]
-      rescue ExceptionService => ex
-        error!({status: 'error', message: ex.message}, 401)
-      end
-    end
-  end
+  helpers Grocery::V1::Helpers::AuthenticationHelpers
 
   namespace :auth do
     mount Authenticate

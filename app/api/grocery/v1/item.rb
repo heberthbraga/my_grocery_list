@@ -1,5 +1,7 @@
 class Grocery::V1::Item < Grape::API
 
+  helpers Grocery::V1::Helpers::TimestampHelpers
+  
   params do
     requires :token, type: String, desc: "Authentication Token"
   end
