@@ -12,6 +12,7 @@ class Grocery::V1::GroceryStore < Grape::API
       requires :name, type: String, desc: 'Store name'
       requires :fantasy_name, type: String, desc: "Store's fantasy name"
       optional :website, type: String, desc: "Store's website"
+      optional :logo, type: File, desc: "Store logo"
       optional :address, type: Hash do
         optional :street, type: String, desc: "Address street"
         optional :city, type: String, desc: "Address city"
@@ -82,6 +83,7 @@ class Grocery::V1::GroceryStore < Grape::API
       requires :name, type: String, desc: 'Store name'
       requires :fantasy_name, type: String, desc: "Store's fantasy name"
       optional :website, type: String, desc: "Store's website"
+      optional :logo, type: File, desc: "Store logo"
       optional :address, type: Hash do
         optional :street, type: String, desc: "Address street"
         optional :city, type: String, desc: "Address city"

@@ -13,8 +13,14 @@ class Item < ApplicationRecord
 
   mount_uploader :picture, ImageUploader
 
+  scope :fetch_all_by_price, -> (direction) { joins(:grocery_items).order("grocery_items.price #{direction}").uniq }
+  
   validates :name, presence: { message: 'Item can\'t be blank' }, uniqueness: { message: 'Item already exists' }
   validates_with CategoriesValidator
+
+  def lowest_price
+    self.grocery_items.minimum(:price)
+  end
 
 private
 

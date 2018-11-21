@@ -53,13 +53,13 @@ describe Grocery::V1::Item do
     end
   end
 
-  describe 'GET /api/v1/secured/items/:id' do
+  describe 'GET /api/v1/secured/items/fetch/:id' do
   
     context 'when fetching an Item' do
       let(:item) { create(:item, category_ids: [category.id]) }
 
       it 'returns an existing Item hash' do
-        get "/api/v1/secured/items/#{item.id}?token=#{@token}"
+        get "/api/v1/secured/items/fetch/#{item.id}?token=#{@token}"
 
         expect(response).not_to be_nil
         body = response.body
@@ -104,6 +104,47 @@ describe Grocery::V1::Item do
         expect(item_hash['id']).not_to be_nil
         expect(item_hash['name']).not_to be_nil
         expect(item_hash['name']).not_to eq item.name
+      end
+    end
+  end
+
+  describe 'GET /api/v1/secured/items/highlights' do
+    let(:categories) { create_list(:category, 2) }
+    let(:grocery_stores) { create_list(:grocery_store, 2) }
+
+    let(:item_one) { create(:item, category_ids: categories.collect{|c|c.id}) }
+    let(:item_two) { create(:item, category_ids: categories.collect{|c|c.id}) }
+
+    before do
+      create(:grocery_item, item: item_one, grocery_store: grocery_stores.first, price: 22.00)
+      create(:grocery_item, item: item_one, grocery_store: grocery_stores.last, price: 43.00)
+
+      create(:grocery_item, item: item_two, grocery_store: grocery_stores.first, price: 19.00)
+      create(:grocery_item, item: item_two, grocery_store: grocery_stores.last, price: 45.00)
+    end
+
+    context 'when fetching highlights' do
+      it 'returns the highlighted items by lowest prices' do
+        get "/api/v1/secured/items/highlights?token=#{@token}"
+
+        expect(response).not_to be_nil
+        body = response.body
+        expect(body).not_to be_nil
+
+        items_hash = item_hash = JSON.parse(body)
+        
+        expect(item_hash).not_to be_nil
+
+        first_item_hash = items_hash.first
+        second_item_hash = items_hash.last
+
+        expect(first_item_hash).not_to be_nil
+        expect(first_item_hash['id']).not_to be_nil
+        expect(first_item_hash['id']).to eq item_two.id
+
+        expect(second_item_hash).not_to be_nil
+        expect(second_item_hash['id']).not_to be_nil
+        expect(second_item_hash['id']).to eq item_one.id
       end
     end
   end

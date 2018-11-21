@@ -11,7 +11,7 @@ class Grocery::V1::Item < Grape::API
     params do
       requires :category_ids, type: Array[Integer], desc: 'List of selected category ids'
       requires :name, type: String, desc: 'Item name'
-      optional :pciture, type: String, desc: "Item's picture"
+      optional :pciture, type: File, desc: "Item's picture"
     end
     post "/", http_codes: [
       [200, "Ok"],
@@ -53,7 +53,7 @@ class Grocery::V1::Item < Grape::API
     end
 
     desc "Fetch an existing Item"
-    get "/:id", http_codes: [
+    get "/fetch/:id", http_codes: [
       [200, "Ok"],
       [401, "Unauthorized"],
       [404, "Not Found"],
@@ -75,7 +75,7 @@ class Grocery::V1::Item < Grape::API
     params do
       requires :category_ids, type: Array[Integer], desc: 'List of selected category ids'
       requires :name, type: String, desc: 'Item name'
-      optional :pciture, type: String, desc: "Item's picture"
+      optional :pciture, type: File, desc: "Item's picture"
     end
     put "/:id", http_codes: [
       [200, "Ok"],
@@ -90,6 +90,25 @@ class Grocery::V1::Item < Grape::API
         item = item_repository.update params[:id], request
 
         present item, with: Grocery::V1::Entities::ItemResponseEntity
+      rescue ExceptionService => ex
+        error!({status: 'error', message: ex.message}, 401)
+      rescue Exception => e
+        error!({status: 'error', message: e.message}, 500)
+      end
+    end
+
+    desc "Fetching highligth items"
+    get "/highlights", http_codes: [
+      [200, "Ok"],
+      [401, "Unauthorized"],
+      [404, "Not Found"],
+      [500, "Internal Server Error"]
+    ] do
+      begin
+        item_repository = ItemRepository.new
+        items = item_repository.fetch_all_by :price
+
+        present items, with: Grocery::V1::Entities::ItemResponseEntity
       rescue ExceptionService => ex
         error!({status: 'error', message: ex.message}, 401)
       rescue Exception => e
