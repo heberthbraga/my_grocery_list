@@ -10,6 +10,7 @@ module Grocery::V1::Requests
         name: params[:name],
         fantasy_name: params[:fantasy_name],
         website: params[:website],
+        logo: params[:logo]
       }
 
       grocery_params.merge!({address_attributes: AddressRequest.call(params[:address])}) if params[:address].present?
