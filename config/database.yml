@@ -16,5 +16,6 @@ test:
   database: grocery_test
 
 production:
-  <<: *default
+  adapter: postgresql
   database: grocery_production
+  encoding: utf8
