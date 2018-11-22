@@ -21,6 +21,7 @@
 /public/uploads
 /lib/generators
 /uploads
+/spec/uploads/*
 
 .idea
 *.iml

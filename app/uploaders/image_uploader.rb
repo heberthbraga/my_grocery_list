@@ -1,16 +1,23 @@
+# encoding: utf-8
+require 'rmagick'
+
 class ImageUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
-  # include CarrierWave::RMagick
+  include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
-  storage :file
+  # storage :file
   # storage :fog
+
+  def self.aws_acl
+    'public-read'
+  end
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-    "public/uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    "assets/images/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
   version :thumb do
