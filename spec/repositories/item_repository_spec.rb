@@ -36,7 +36,7 @@ describe ItemRepository, type: :repository do
       it 'returns a not persisted item' do
         expect {
           item_repository.create request
-        }.to raise_error(ActiveRecord::RecordInvalid)
+        }.to raise_error(ExceptionService)
       end
     end
   end

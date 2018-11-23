@@ -16,9 +16,11 @@ module Persistable
 
     target_object = self.class.object.new(params)
 
-    target_object.save!
-
-    target_object
+    if target_object.save
+      target_object
+    else
+      raise ExceptionService.new("#{target_object.errors.messages.map{|k, v| v}.join(', ')}")
+    end
   end
 
   def fetch(id)
@@ -47,9 +49,11 @@ module Persistable
 
     target_object = self.class.object.find(id)
 
-    target_object.update! params
-
-    target_object
+    if target_object.update(params)
+      target_object
+    else
+      raise ExceptionService.new("#{target_object.errors.messages.map{|k, v| v}.join(', ')}")
+    end
   end
 
   def destroy(id)

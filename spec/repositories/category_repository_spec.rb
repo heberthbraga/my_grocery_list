@@ -35,7 +35,7 @@ describe CategoryRepository, type: :repository do
       it 'returns a not persisted category' do
         expect {
           category_repository.create request
-        }.to raise_error(ActiveRecord::RecordInvalid)
+        }.to raise_error(ExceptionService)
       end
     end
 

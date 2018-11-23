@@ -43,7 +43,7 @@ describe GroceryStoreRepository, type: :repository do
       it 'returns a not persisted store' do
         expect {
           grocery_store_repository.create request
-        }.to raise_error(ActiveRecord::RecordInvalid)
+        }.to raise_error(ExceptionService)
       end
     end
   end

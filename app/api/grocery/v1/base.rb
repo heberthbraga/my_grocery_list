@@ -18,6 +18,7 @@ class Grocery::V1::Base < Grape::API
     mount GroceryStore
     mount Category
     mount Item
+    mount GroceryItem
   end
 
   add_swagger_documentation( 

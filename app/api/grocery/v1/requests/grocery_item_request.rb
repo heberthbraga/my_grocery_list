@@ -1,5 +1,5 @@
 module Grocery::V1::Requests
-  class ItemRequest < ApplicationService
+  class GroceryItemRequest < ApplicationService
     
     def initialize(params)
       @params = params
@@ -7,9 +7,9 @@ module Grocery::V1::Requests
 
     def call
       {
-        category_ids: params[:category_ids].split(',').map(&:to_i),
-        name: params[:name],
-        picture: params[:picture]
+        grocery_store_id: params[:grocery_store_id],
+        item_id: params[:item_id],
+        price: params[:price]
       }
     end
 

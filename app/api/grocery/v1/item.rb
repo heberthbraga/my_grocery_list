@@ -9,7 +9,7 @@ class Grocery::V1::Item < Grape::API
   resource :items do
     desc "Create an Item"
     params do
-      requires :category_ids, type: Array[Integer], desc: 'List of selected category ids'
+      requires :category_ids, type: String, desc: 'List of selected category ids separated by comma'
       requires :name, type: String, desc: 'Item name'
       optional :pciture, type: File, desc: "Item's picture"
     end
@@ -73,7 +73,7 @@ class Grocery::V1::Item < Grape::API
 
     desc "Update an Item"
     params do
-      requires :category_ids, type: Array[Integer], desc: 'List of selected category ids'
+      requires :category_ids, type: String, desc: 'List of selected category ids separated by comma'
       requires :name, type: String, desc: 'Item name'
       optional :pciture, type: File, desc: "Item's picture"
     end
