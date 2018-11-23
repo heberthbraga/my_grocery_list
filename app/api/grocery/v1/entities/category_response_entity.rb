@@ -1,13 +1,14 @@
 module Grocery::V1::Entities
   class CategoryResponseEntity < Grape::Entity
     
-    expose :id,           documentation: { type: 'integer', desc: 'Grocery Store ID' }
-    expose :name,         documentation: { type: 'string', desc: 'Category Name' }
-    expose :description,  documentation: { type: 'string', desc: 'Category Description' }
+    expose :id,            documentation: { type: 'Integer', desc: 'Grocery Store ID' }
+    expose :name,          documentation: { type: 'String', desc: 'Category Name' }
+    expose :description,   documentation: { type: 'String', desc: 'Category Description' }
+    expose :subcategories, documentation: { type: 'Array', desc: 'Category Description' }, with: self
     
     with_options(format_with: :partial_timestamp) do
-      expose :created_at, documentation: { type: 'datetime', desc: 'Category creation date' }
-      expose :updated_at, documentation: { type: 'datetime', desc: 'Category update date' }
+      expose :created_at, documentation: { type: 'Datetime', desc: 'Category creation date' }
+      expose :updated_at, documentation: { type: 'Datetime', desc: 'Category update date' }
     end
   end
 end

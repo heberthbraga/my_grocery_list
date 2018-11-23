@@ -38,6 +38,33 @@ describe CategoryRepository, type: :repository do
         }.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
+
+    context 'when creating subcategories' do
+      let(:existing_category) { create(:category) }
+
+      let(:request) {
+        {
+          name: Faker::Company.unique.name,
+          description: Faker::Lorem.sentence,
+          parent_id: existing_category.id
+        }
+      }
+
+      it 'returns the created sub category with id and parent id' do
+        sub_category = category_repository.create request
+
+        expect(sub_category).not_to be_nil
+        expect(sub_category.persisted?).to eq true
+        expect(sub_category.id).not_to be_nil
+        expect(sub_category.name).not_to be_nil
+        expect(sub_category.parent_id).not_to be_nil
+        expect(sub_category.parent_id).to eq existing_category.id
+
+        existing_category.reload
+        subcategories = existing_category.subcategories
+        expect(subcategories.size).to eq 1
+      end
+    end
   end
 
   describe '#fetch' do

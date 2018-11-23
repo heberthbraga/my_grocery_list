@@ -78,4 +78,32 @@ describe Grocery::V1::Category do
       end
     end
   end
+
+  describe 'GET /api/v1/secured/categories/:id' do
+    context 'when fetching a Category' do
+      let(:category) { create(:category) }
+
+      before do
+        create(:category, parent_id: category.id)
+        category.reload
+      end
+
+      it 'returns an existing Item hash' do
+        get "/api/v1/secured/categories/#{category.id}?token=#{@token}"
+
+        expect(response).not_to be_nil
+        body = response.body
+        expect(body).not_to be_nil
+
+        category_hash = JSON.parse(body)
+
+        expect(category_hash).not_to be_nil
+        expect(category_hash['id']).not_to be_nil
+        expect(category_hash['id']).to eq category.id
+        expect(category_hash['name']).not_to be_nil
+        expect(category_hash['name']).to eq category.name
+        expect(category_hash['subcategories'].size).to eq 1
+      end
+    end
+  end
 end

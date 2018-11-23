@@ -8,7 +8,8 @@ module Grocery::V1::Requests
     def call
       {
         name: params[:name],
-        description: params[:description]
+        description: params[:description],
+        parent_id: params[:parent_id]
       }
     end
 

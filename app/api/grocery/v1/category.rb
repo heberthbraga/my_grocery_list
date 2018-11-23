@@ -10,6 +10,7 @@ class Grocery::V1::Category < Grape::API
     desc "Create a Category"
     params do
       requires :name, type: String, desc: 'Category Name'
+      optional :parent_id, type: String, desc: "Sub category parent id"
       optional :description, type: String, desc: "Category Description"
     end
     post "/", http_codes: [
@@ -50,9 +51,28 @@ class Grocery::V1::Category < Grape::API
       end
     end
 
+    desc "Fetch a category"
+    get "/:id", http_codes: [
+      [200, "Ok"],
+      [401, "Unauthorized"],
+      [500, "Internal Server Error"]
+    ] do
+      begin
+        category_repository = CategoryRepository.new
+        category = category_repository.fetch params[:id]
+
+        present category, with: Grocery::V1::Entities::CategoryResponseEntity
+      rescue ExceptionService => ex
+        error!({status: 'error', message: ex.message}, 401)
+      rescue Exception => e
+        error!({status: 'error', message: e.message}, 500)
+      end
+    end
+
     desc "Update a Category"
     params do
       requires :name, type: String, desc: 'Category Name'
+      optional :parent_id, type: String, desc: "Sub category parent id"
       optional :description, type: String, desc: "Category Description"
     end
     put "/:id", http_codes: [
