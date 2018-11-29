@@ -27,8 +27,16 @@ class Grocery::V1::Item < Grape::API
 
         present item, with: Grocery::V1::Entities::ItemResponseEntity
       rescue ExceptionService => ex
+        Rails.logger.info "---------> Grocery::V1::Item "
+        Rails.logger.error ex.inspect
+        Rails.logger.error ex.backtrace.join("\n")
+
         error!({status: 'error', message: ex.message}, 401)
       rescue Exception => e
+        Rails.logger.info "---------> Grocery::V1::Item "
+        Rails.logger.error e.inspect
+        Rails.logger.error e.backtrace.join("\n")
+
         error!({status: 'error', message: e.message}, 500)
       end
     end
@@ -46,8 +54,16 @@ class Grocery::V1::Item < Grape::API
 
         present items, with: Grocery::V1::Entities::ItemResponseEntity
       rescue ExceptionService => ex
+        Rails.logger.info "---------> Grocery::V1::Item "
+        Rails.logger.error ex.inspect
+        Rails.logger.error ex.backtrace.join("\n")
+
         error!({status: 'error', message: ex.message}, 401)
       rescue Exception => e
+        Rails.logger.info "---------> Grocery::V1::Item "
+        Rails.logger.error e.inspect
+        Rails.logger.error e.backtrace.join("\n")
+
         error!({status: 'error', message: e.message}, 500)
       end
     end
@@ -65,8 +81,16 @@ class Grocery::V1::Item < Grape::API
 
         present item, with: Grocery::V1::Entities::ItemResponseEntity
       rescue ExceptionService => ex
+        Rails.logger.info "---------> Grocery::V1::Item "
+        Rails.logger.error ex.inspect
+        Rails.logger.error ex.backtrace.join("\n")
+
         error!({status: 'error', message: ex.message}, 401)
       rescue Exception => e
+        Rails.logger.info "---------> Grocery::V1::Item "
+        Rails.logger.error e.inspect
+        Rails.logger.error e.backtrace.join("\n")
+
         error!({status: 'error', message: e.message}, 500)
       end
     end
@@ -91,8 +115,16 @@ class Grocery::V1::Item < Grape::API
 
         present item, with: Grocery::V1::Entities::ItemResponseEntity
       rescue ExceptionService => ex
+        Rails.logger.info "---------> Grocery::V1::Item "
+        Rails.logger.error ex.inspect
+        Rails.logger.error ex.backtrace.join("\n")
+
         error!({status: 'error', message: ex.message}, 401)
       rescue Exception => e
+        Rails.logger.info "---------> Grocery::V1::Item "
+        Rails.logger.error e.inspect
+        Rails.logger.error e.backtrace.join("\n")
+
         error!({status: 'error', message: e.message}, 500)
       end
     end
@@ -110,8 +142,16 @@ class Grocery::V1::Item < Grape::API
 
         present items, with: Grocery::V1::Entities::ItemResponseEntity
       rescue ExceptionService => ex
+        Rails.logger.info "---------> Grocery::V1::Item "
+        Rails.logger.error ex.inspect
+        Rails.logger.error ex.backtrace.join("\n")
+
         error!({status: 'error', message: ex.message}, 401)
       rescue Exception => e
+        Rails.logger.info "---------> Grocery::V1::Item "
+        Rails.logger.error e.inspect
+        Rails.logger.error e.backtrace.join("\n")
+
         error!({status: 'error', message: e.message}, 500)
       end
     end
