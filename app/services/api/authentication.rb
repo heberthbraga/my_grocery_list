@@ -6,11 +6,14 @@ class API::Authentication < ApplicationService
   end
 
   def call
-    Rails.logger.debug "API::Authentication = Authenticating user #{@username}"
+    raise ExceptionService.new('Email can\'t be blank.') unless username.present?
+    raise ExceptionService.new('Password can\'t be blank.') unless password.present?
 
-    existing_user = User.find_by(email: @username)
+    Rails.logger.debug "API::Authentication = Authenticating user #{username}"
 
-    if existing_user && existing_user.authenticate(@password) && existing_user.api?
+    existing_user = User.find_by(email: username)
+
+    if existing_user && existing_user.authenticate(password) && existing_user.api?
       key = ApiKey.create(user_id: existing_user.id)
 
       Rails.logger.debug "API::Authentication = User authenticated with Key #{key.inspect}"
@@ -22,4 +25,8 @@ class API::Authentication < ApplicationService
       raise ExceptionService.new('Failed to authenticate user.')
     end
   end
+
+private
+
+  attr_reader :username, :password
 end
