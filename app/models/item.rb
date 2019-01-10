@@ -15,7 +15,7 @@ class Item < ApplicationRecord
 
   scope :fetch_all_by_price, -> (direction) { joins(:grocery_items).order("grocery_items.price #{direction}").uniq }
   
-  validates :name, presence: { message: 'Item can\'t be blank' }, uniqueness: { message: 'Item already exists' }
+  validates :name, presence: { message: 'Product can\'t be blank' }, uniqueness: { message: 'Item already exists' }
   validates_with CategoriesValidator
 
   def lowest_price

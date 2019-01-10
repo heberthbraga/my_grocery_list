@@ -11,7 +11,7 @@ class Grocery::V1::Item < Grape::API
     params do
       requires :category_ids, type: String, desc: 'List of selected category ids separated by comma'
       requires :name, type: String, desc: 'Item name'
-      optional :pciture, type: File, desc: "Item's picture"
+      optional :picture, type: File, desc: "Item's picture"
     end
     post "/", http_codes: [
       [200, "Ok"],

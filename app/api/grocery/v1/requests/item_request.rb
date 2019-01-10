@@ -7,7 +7,7 @@ module Grocery::V1::Requests
 
     def call
       {
-        category_ids: params[:category_ids].split(',').map(&:to_i),
+        category_ids: params[:category_ids].present? ? params[:category_ids].split(',').map(&:to_i) : nil,
         name: params[:name],
         picture: params[:picture]
       }
