@@ -1,0 +1,21 @@
+default: &default
+  adapter: postgresql
+  username: <%= ENV.fetch("DB_USERNAME") %>
+  password: <%= ENV.fetch("DB_PASSWORD") %>
+  encoding: utf8
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") %>
+  host: <%= ENV.fetch("DB_HOSTNAME") %>
+  port: <%= ENV.fetch("DB_PORT") %>
+
+development:
+  <<: *default
+  database: grocery_development
+
+test:
+  <<: *default
+  database: grocery_test
+
+production:
+  adapter: postgresql
+  database: grocery_production
+  encoding: utf8
