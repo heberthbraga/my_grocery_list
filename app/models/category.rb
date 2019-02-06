@@ -14,4 +14,5 @@ class Category < ApplicationRecord
   def subcategory?
     self.parent.present?
   end
+
 end

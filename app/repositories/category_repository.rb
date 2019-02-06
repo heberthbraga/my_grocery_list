@@ -9,4 +9,5 @@ class CategoryRepository
 
     parent_categories
   end
+
 end

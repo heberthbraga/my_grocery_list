@@ -37,7 +37,7 @@ class Grocery::V1::Authenticate < Grape::API
       Rails.logger.error e.inspect
       Rails.logger.error e.backtrace.join("\n")
       
-      error!({status: 'error', message: e.message}, 500)
+      error!({status: 'error', message: ex.message}, 401)
     end
   end
 end
