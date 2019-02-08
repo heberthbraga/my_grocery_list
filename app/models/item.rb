@@ -14,12 +14,17 @@ class Item < ApplicationRecord
   mount_uploader :picture, ImageUploader
 
   scope :fetch_all_by_price, -> (direction) { joins(:grocery_items).order("grocery_items.price #{direction}").uniq }
+  scope :fetch_all_not_matched_store, -> (store_id) { joins(:grocery_stores).where('grocery_stores.id <> ?', store_id) }
   
   validates :name, presence: { message: 'Product can\'t be blank' }, uniqueness: { message: 'Item already exists' }
   validates_with CategoriesValidator
 
   def lowest_price
     self.grocery_items.minimum(:price)
+  end
+
+  def match_grocery_store? store_id
+    self.grocery_stores.where(grocery_stores: { id: store_id }).first.present?
   end
 
 private

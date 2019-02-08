@@ -10,4 +10,8 @@ class ItemRepository
       []
     end
   end
+
+  def fetch_all_not_matched_store store_id
+    Item.all.reject{ |item| item.match_grocery_store?(store_id) }
+  end
 end

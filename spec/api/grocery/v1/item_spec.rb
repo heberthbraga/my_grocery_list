@@ -148,4 +148,37 @@ describe Grocery::V1::Item do
       end
     end
   end
+
+  describe 'GET /api/v1/secured/items/fetch/not_matched_store/:store_id' do
+    let(:categories) { create_list(:category, 2) }
+    let(:grocery_stores) { create_list(:grocery_store, 2) }
+
+    before do
+      @item_one = create(:item, category_ids: categories.collect{|c|c.id})
+      @item_two = create(:item, category_ids: categories.collect{|c|c.id})
+
+      @grocery_stores_first = grocery_stores.first
+      
+      create(:grocery_item, item: @item_one, grocery_store: @grocery_stores_first, price: 22.00)
+    end
+
+    context 'when fetching items that don\'t belong to a store' do
+      it 'returns the highlighted items by lowest prices' do
+        get "/api/v1/secured/items/fetch/not_matched_store/#{@grocery_stores_first.id}?token=#{@token}"
+
+        expect(response).not_to be_nil
+        body = response.body
+        expect(body).not_to be_nil
+
+        items_hash = item_hash = JSON.parse(body)
+        
+        expect(item_hash).not_to be_nil
+
+        first_item_hash = items_hash.first
+        expect(first_item_hash).not_to be_nil
+        expect(first_item_hash['id']).not_to be_nil
+        expect(first_item_hash['id']).to eq @item_two.id
+      end
+    end
+  end
 end
