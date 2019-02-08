@@ -63,7 +63,7 @@ class Grocery::V1::Category < Grape::API
         Rails.logger.error e.inspect
         Rails.logger.error e.backtrace.join("\n")
 
-        error!({status: 'error', message: ex.message}, 401)
+        error!({status: 'error', message: e.message}, 500)
       end
     end
 
@@ -89,7 +89,7 @@ class Grocery::V1::Category < Grape::API
         Rails.logger.error e.inspect
         Rails.logger.error e.backtrace.join("\n")
 
-        error!({status: 'error', message: ex.message}, 401)
+        error!({status: 'error', message: e.message}, 500)
       end
     end
 
@@ -149,7 +149,7 @@ class Grocery::V1::Category < Grape::API
         Rails.logger.error e.inspect
         Rails.logger.error e.backtrace.join("\n")
 
-        error!({status: 'error', message: ex.message}, 401)
+        error!({status: 'error', message: e.message}, 500)
       end
     end
   end

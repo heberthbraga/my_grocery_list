@@ -29,5 +29,5 @@ class API::Authentication < ApplicationService
 private
 
   attr_reader :username, :password
-
+  
 end

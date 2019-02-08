@@ -16,11 +16,14 @@ class Item < ApplicationRecord
   scope :fetch_all_by_price, -> (direction) { joins(:grocery_items).order("grocery_items.price #{direction}").uniq }
   
   validates :name, presence: { message: 'Product can\'t be blank' }, uniqueness: { message: 'Item already exists' }
-
   validates_with CategoriesValidator
 
   def lowest_price
     self.grocery_items.minimum(:price)
+  end
+
+  def match_grocery_store? store_id
+    self.grocery_stores.where(grocery_stores: { id: store_id }).first.present?
   end
 
 private

@@ -136,4 +136,30 @@ describe ItemRepository, type: :repository do
     end
   end
 
+  describe '#fetch_all_not_matched_store' do
+    let(:categories) { create_list(:category, 2) }
+    let(:grocery_stores) { create_list(:grocery_store, 2) }
+
+    before do
+      @item_one = create(:item, category_ids: categories.collect{|c|c.id})
+      @item_two = create(:item, category_ids: categories.collect{|c|c.id})
+
+      @grocery_stores_first = grocery_stores.first
+
+      create(:grocery_item, item: @item_one, grocery_store: @grocery_stores_first, price: 22.00)
+    end
+
+    context 'when fetching items that not matched store' do
+      it 'it returns a list of ordered items' do
+        items = item_repository.fetch_all_not_matched_store @grocery_stores_first.id
+
+        expect(items.size).to eq 1
+
+        first_item = items.first
+        expect(first_item).not_to be_nil
+        expect(first_item.id).to eq @item_two.id
+      end
+    end
+  end
+
 end
