@@ -27,6 +27,10 @@ class Item < ApplicationRecord
     self.grocery_stores.where(grocery_stores: { id: store_id }).first.present?
   end
 
+  def prices_per_store
+    self.grocery_items.collect{|grocery_item| { store: grocery_item.grocery_store.name, price: grocery_item.price } }
+  end
+
 private
 
   def map_categories
