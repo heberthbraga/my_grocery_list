@@ -10,6 +10,7 @@ describe Grocery::V1::Item do
       let(:request) { 
         {
           name: Faker::Company.unique.name,
+          quantity: 1,
           category_ids: "#{category.id}"
         }
        }
@@ -87,6 +88,7 @@ describe Grocery::V1::Item do
       let(:request) {
         {
           name: 'Lorem',
+          quantity: 1,
           category_ids: "#{category_two.id}"
         }
       }

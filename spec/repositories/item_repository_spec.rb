@@ -11,6 +11,7 @@ describe ItemRepository, type: :repository do
       let(:request) {
         {
           name: Faker::Lorem.unique.word.upcase,
+          quantity: 1,
           category_ids: [category.id]
         }
       }

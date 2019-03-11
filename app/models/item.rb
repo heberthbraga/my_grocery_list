@@ -20,8 +20,10 @@ class Item < ApplicationRecord
   validates :quantity, presence: { message: 'Quantity can\'t be blank' }
   validates_with CategoriesValidator
 
-  def lowest_price
-    self.grocery_items.minimum(:price)
+  def lowest_store_price
+    lowest = self.grocery_items.first
+
+    lowest.present? ? { store: lowest.grocery_store.name, price: lowest.price } : {}
   end
 
   def match_grocery_store? store_id
