@@ -17,6 +17,7 @@ class Item < ApplicationRecord
   scope :fetch_all_not_matched_store, -> (store_id) { joins(:grocery_stores).where('grocery_stores.id <> ?', store_id) }
   
   validates :name, presence: { message: 'Product can\'t be blank' }, uniqueness: { message: 'Item already exists' }
+  validates :quantity, presence: { message: 'Quantity can\'t be blank' }
   validates_with CategoriesValidator
 
   def lowest_price
