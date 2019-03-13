@@ -106,4 +106,23 @@ describe Grocery::V1::Category do
       end
     end
   end
+
+  describe 'DELETE /api/v1/secured/categories/:id' do
+    let(:category) { create(:category) }
+
+    context 'when destroying a category' do
+       it 'should return the destroyed category' do
+        delete "/api/v1/secured/categories/#{category.id}?token=#{@token}"
+
+        expect(response).not_to be_nil
+        body = response.body
+        expect(body).not_to be_nil
+
+        category_hash = JSON.parse(body)
+
+        expect(category_hash).not_to be_nil
+        expect(category_hash['id']).not_to be_nil
+       end
+    end
+  end
 end

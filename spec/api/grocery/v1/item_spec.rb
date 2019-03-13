@@ -182,35 +182,58 @@ describe Grocery::V1::Item do
         expect(first_item_hash['id']).to eq @item_two.id
       end
     end
+  end
 
-    describe 'POST /api/v1/secured/items/search' do
-      let(:categories) { create_list(:category, 2) }
-      let(:grocery_stores) { create_list(:grocery_store, 2) }
-      let(:request) {
-        {
-          keyword: 'Lore'
-        }
+  describe 'POST /api/v1/secured/items/search' do
+    let(:categories) { create_list(:category, 2) }
+    let(:grocery_stores) { create_list(:grocery_store, 2) }
+    let(:request) {
+      {
+        keyword: 'Lore'
       }
-  
-      before do
-        create(:item, name: 'Lorem ipsum', category_ids: categories.collect{|c|c.id})
-        create(:item, name: 'Lorem Test', category_ids: categories.collect{|c|c.id})
+    }
+
+    before do
+      create(:item, name: 'Lorem ipsum', category_ids: categories.collect{|c|c.id})
+      create(:item, name: 'Lorem Test', category_ids: categories.collect{|c|c.id})
+    end
+
+    context 'when searching for items based on a keyword' do
+      it 'should return a list of ordered items' do
+        post "/api/v1/secured/items/search?token=#{@token}", params: request
+
+        expect(response).not_to be_nil
+        body = response.body
+        expect(body).not_to be_nil
+
+        items_hash = item_hash = JSON.parse(body)
+        
+        expect(item_hash).not_to be_nil
+        expect(item_hash.size).to eq 2
       end
-  
-      context 'when searching for items based on a keyword' do
-        it 'should return a list of ordered items' do
-          post "/api/v1/secured/items/search?token=#{@token}", params: request
-  
-          expect(response).not_to be_nil
-          body = response.body
-          expect(body).not_to be_nil
-  
-          items_hash = item_hash = JSON.parse(body)
-          
-          expect(item_hash).not_to be_nil
-          expect(item_hash.size).to eq 2
-        end
-      end
+    end
+  end
+
+  describe 'DELETE /api/v1/secured/items/:id' do
+    let(:categories) { create_list(:category, 2) }
+
+    before do
+      @item = create(:item, name: 'Lorem ipsum', category_ids: categories.collect{|c|c.id})
+    end
+
+    context 'when destroying an item' do
+       it 'should return the destroyed item' do
+        delete "/api/v1/secured/items/#{@item.id}?token=#{@token}"
+
+        expect(response).not_to be_nil
+        body = response.body
+        expect(body).not_to be_nil
+
+        item_hash = JSON.parse(body)
+
+        expect(item_hash).not_to be_nil
+        expect(item_hash['id']).not_to be_nil
+       end
     end
   end
 end

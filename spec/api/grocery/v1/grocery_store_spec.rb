@@ -110,4 +110,23 @@ describe Grocery::V1::GroceryStore do
     end
   end
 
+  describe 'DELETE /api/v1/secured/stores/:id' do
+    let(:grocery_store) { create(:grocery_store) }
+
+    context 'when destroying a store' do
+       it 'should return the destroyed store' do
+        delete "/api/v1/secured/stores/#{grocery_store.id}?token=#{@token}"
+
+        expect(response).not_to be_nil
+        body = response.body
+        expect(body).not_to be_nil
+
+        grocery_store_hash = JSON.parse(body)
+
+        expect(grocery_store_hash).not_to be_nil
+        expect(grocery_store_hash['id']).not_to be_nil
+       end
+    end
+  end
+
 end
