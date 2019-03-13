@@ -1,5 +1,8 @@
 class Item < ApplicationRecord
   include Activable
+  include Searchable
+
+  searchable :name
 
   before_save :map_categories
 
@@ -16,14 +19,21 @@ class Item < ApplicationRecord
   scope :fetch_all_by_price, -> (direction) { joins(:grocery_items).order("grocery_items.price #{direction}").uniq }
   
   validates :name, presence: { message: 'Product can\'t be blank' }, uniqueness: { message: 'Item already exists' }
+  validates :quantity, presence: { message: 'Quantity can\'t be blank' }
   validates_with CategoriesValidator
 
-  def lowest_price
-    self.grocery_items.minimum(:price)
+  def lowest_store_price
+    lowest = self.grocery_items.first
+
+    lowest.present? ? { store_id: lowest.grocery_store.id, store: lowest.grocery_store.name, price: lowest.price } : {}
   end
 
   def match_grocery_store? store_id
     self.grocery_stores.where(grocery_stores: { id: store_id }).first.present?
+  end
+
+  def prices_per_store
+    self.grocery_items.collect{|grocery_item| { store: grocery_item.grocery_store.name, price: grocery_item.price } }
   end
 
 private

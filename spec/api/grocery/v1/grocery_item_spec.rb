@@ -29,8 +29,6 @@ describe Grocery::V1::GroceryItem do
         expect(grocery_item_hash).not_to be_nil
         expect(grocery_item_hash['id']).not_to be_nil
         expect(grocery_item_hash['price']).not_to be_nil
-        expect(grocery_item_hash['grocery_store']).not_to be_nil
-        expect(grocery_item_hash['grocery_store']['id']).to eq grocery_store.id
        end
     end
   end

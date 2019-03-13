@@ -9,6 +9,7 @@ module Grocery::V1::Requests
       {
         category_ids: params[:category_ids].present? ? params[:category_ids].split(',').map(&:to_i) : nil,
         name: params[:name],
+        quantity: params[:quantity],
         picture: params[:picture]
       }
     end
