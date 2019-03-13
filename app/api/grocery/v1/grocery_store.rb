@@ -142,6 +142,35 @@ class Grocery::V1::GroceryStore < Grape::API
         error!({status: 'error', message: e.message}, 500)
       end
     end
-  end
 
+    desc "Destroy a Store"
+    params do
+      requires :id, type: Integer, desc: 'Store Id'
+    end
+    delete "/:id", http_codes: [
+      [200, "Ok"],
+      [401, "Unauthorized"],
+      [404, "Not Found"],
+      [500, "Internal Server Error"]
+    ] do
+      begin
+        grocery_store_repository = GroceryStoreRepository.new
+        grocery_store = grocery_store_repository.destroy params[:id]
+
+        present grocery_store, with: Grocery::V1::Entities::GroceryStoreResponseEntity
+      rescue ExceptionService => ex
+        Rails.logger.info "---------> Grocery::V1::GroceryStore "
+        Rails.logger.error ex.inspect
+        Rails.logger.error ex.backtrace.join("\n")
+
+        error!({status: 'error', message: ex.message}, 401)
+      rescue Exception => e
+        Rails.logger.info "---------> Grocery::V1::GroceryStore "
+        Rails.logger.error e.inspect
+        Rails.logger.error e.backtrace.join("\n")
+
+        error!({status: 'error', message: e.message}, 500)
+      end
+    end
+  end
 end
