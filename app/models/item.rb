@@ -1,5 +1,8 @@
 class Item < ApplicationRecord
   include Activable
+  include Searchable
+
+  searchable :name
 
   before_save :map_categories
 
@@ -23,7 +26,7 @@ class Item < ApplicationRecord
   def lowest_store_price
     lowest = self.grocery_items.first
 
-    lowest.present? ? { store: lowest.grocery_store.name, price: lowest.price } : {}
+    lowest.present? ? { store_id: lowest.grocery_store.id, store: lowest.grocery_store.name, price: lowest.price } : {}
   end
 
   def match_grocery_store? store_id

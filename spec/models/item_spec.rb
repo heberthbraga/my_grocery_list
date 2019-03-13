@@ -18,7 +18,6 @@ describe Item, type: :model do
         lowest_store_price = item.lowest_store_price
 
         expect(lowest_store_price).not_to be_nil
-        p lowest_store_price
         expect(lowest_store_price[:price]).to eq @grocery_item_one.price
         expect(lowest_store_price[:price]).not_to eq @grocery_item_two.price
       end

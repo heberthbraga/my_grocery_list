@@ -185,5 +185,35 @@ class Grocery::V1::Item < Grape::API
         error!({status: 'error', message: e.message}, 500)
       end
     end
+
+    desc "Search items based on keyword"
+    params do
+      requires :keyword, type: String, desc: 'Search keyword'
+    end
+    post "/search", http_codes: [
+      [200, "Ok"],
+      [401, "Unauthorized"],
+      [500, "Internal Server Error"]
+    ] do
+      begin
+        item_repository = ItemRepository.new
+        items = item_repository.search params[:keyword]
+
+        present items, with: Grocery::V1::Entities::ItemResponseEntity
+      rescue ExceptionService => ex
+        Rails.logger.info "---------> Grocery::V1::Item /search "
+        Rails.logger.error ex.inspect
+        Rails.logger.error ex.backtrace.join("\n")
+
+        error!({status: 'error', message: ex.message}, 401)
+      rescue Exception => e
+        Rails.logger.info "---------> Grocery::V1::Item /search "
+        Rails.logger.error e.inspect
+        Rails.logger.error e.backtrace.join("\n")
+
+        error!({status: 'error', message: e.message}, 500)
+      end
+    end
+
   end
 end

@@ -151,7 +151,7 @@ describe ItemRepository, type: :repository do
     end
 
     context 'when fetching items that not matched store' do
-      it 'it returns a list of ordered items' do
+      it 'returns a list of ordered items' do
         items = item_repository.fetch_all_not_matched_store @grocery_stores_first.id
 
         expect(items.size).to eq 1
@@ -159,6 +159,24 @@ describe ItemRepository, type: :repository do
         first_item = items.first
         expect(first_item).not_to be_nil
         expect(first_item.id).to eq @item_two.id
+      end
+    end
+  end
+
+  describe '#search' do
+    let(:categories) { create_list(:category, 2) }
+    let(:grocery_stores) { create_list(:grocery_store, 2) }
+
+    before do
+      create(:item, name: 'Lorem ipsum', category_ids: categories.collect{|c|c.id})
+      create(:item, name: 'Lorem Test', category_ids: categories.collect{|c|c.id})
+    end
+
+    context 'when searching for items based on a keyword' do
+      it 'should return a list of ordered items' do
+        items = item_repository.search 'Lore'
+
+        expect(items.size).to eq 2
       end
     end
   end
