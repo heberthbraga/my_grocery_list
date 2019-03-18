@@ -9,14 +9,16 @@ class API::Authorization < ApplicationService
 
     api_key = ApiKey.find_by(access_token: @access_token)
 
-    if api_key && !api_key.expired?
+    if api_key
+      raise ExceptionService.new('Invalid or Expired Token.') if api_key.expired?
+      
       current_user = User.find_by(id: api_key.user_id, active: true)
     end
 
-    if current_user.present? && current_user.api?
+    if current_user.present?
       return current_user
     else
-      raise ExceptionService.new('Unauthorized. Invalid or expired token.')
+      raise ExceptionService.new('Unauthorized.')
     end
   end
 end
