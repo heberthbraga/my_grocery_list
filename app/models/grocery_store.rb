@@ -13,6 +13,7 @@ class GroceryStore < ApplicationRecord
   default_scope { order(:created_at) }
 
   validates :name, presence: { message: 'Name cannot be empty' }
-  validates :fantasy_name, presence: { message: 'Fantasy Name cannot be empty' }, uniqueness: { message: 'Store already exists' }  
+  validates :fantasy_name, presence: { message: 'Fantasy Name cannot be empty' }
+  validates :fantasy_name, uniqueness: { message: 'Store already exists' }, on: :create
 
 end
