@@ -9,6 +9,11 @@ class ApiKey < ApplicationRecord
     DateTime.now >= self.expires_at
   end
 
+  def refresh
+    generate_access_token
+    set_expiration
+  end
+
 private
 
   def generate_access_token
