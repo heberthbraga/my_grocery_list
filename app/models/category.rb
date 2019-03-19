@@ -9,7 +9,8 @@ class Category < ApplicationRecord
 
   scope :fetch_parent_categories, -> { where(parent: nil).active }
 
-  validates :name, presence: { message: 'Name cannot be blank' }, uniqueness: { message: 'Category already exists' }
+  validates :name, presence: { message: 'Name cannot be blank' }
+  validates :name, uniqueness: { message: 'Category already exists' }, on: :create
 
   def subcategory?
     self.parent.present?
