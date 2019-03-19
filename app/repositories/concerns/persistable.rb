@@ -52,7 +52,7 @@ module Persistable
     if target_object.update(params)
       target_object
     else
-      raise ExceptionService.new("#{target_object.errors.messages.map{|k, v| v}.join(', ')}")
+      raise ExceptionService.new("#{target_object.errors.messages.to_json}")
     end
   end
 

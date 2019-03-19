@@ -31,13 +31,7 @@ class Grocery::V1::Item < Grape::API
         Rails.logger.error ex.inspect
         Rails.logger.error ex.backtrace.join("\n")
 
-        error!({status: 'error', message: ex.message}, 401)
-      rescue Exception => e
-        Rails.logger.info "---------> Grocery::V1::Item "
-        Rails.logger.error e.inspect
-        Rails.logger.error e.backtrace.join("\n")
-
-        error!({status: 'error', message: e.message}, 500)
+        error!({status: 'error', message: ex.message}, 500)
       end
     end
 
@@ -58,13 +52,7 @@ class Grocery::V1::Item < Grape::API
         Rails.logger.error ex.inspect
         Rails.logger.error ex.backtrace.join("\n")
 
-        error!({status: 'error', message: ex.message}, 401)
-      rescue Exception => e
-        Rails.logger.info "---------> Grocery::V1::Item "
-        Rails.logger.error e.inspect
-        Rails.logger.error e.backtrace.join("\n")
-
-        error!({status: 'error', message: e.message}, 500)
+        error!({status: 'error', message: ex.message}, 500)
       end
     end
 
@@ -85,13 +73,7 @@ class Grocery::V1::Item < Grape::API
         Rails.logger.error ex.inspect
         Rails.logger.error ex.backtrace.join("\n")
 
-        error!({status: 'error', message: ex.message}, 401)
-      rescue Exception => e
-        Rails.logger.info "---------> Grocery::V1::Item /fetch "
-        Rails.logger.error e.inspect
-        Rails.logger.error e.backtrace.join("\n")
-
-        error!({status: 'error', message: e.message}, 500)
+        error!({status: 'error', message: ex.message}, 500)
       end
     end
 
@@ -119,13 +101,7 @@ class Grocery::V1::Item < Grape::API
         Rails.logger.error ex.inspect
         Rails.logger.error ex.backtrace.join("\n")
 
-        error!({status: 'error', message: ex.message}, 401)
-      rescue Exception => e
-        Rails.logger.info "---------> Grocery::V1::Item /put "
-        Rails.logger.error e.inspect
-        Rails.logger.error e.backtrace.join("\n")
-
-        error!({status: 'error', message: e.message}, 500)
+        error!({status: 'error', message: ex.message}, 500)
       end
     end
 
@@ -146,13 +122,7 @@ class Grocery::V1::Item < Grape::API
         Rails.logger.error ex.inspect
         Rails.logger.error ex.backtrace.join("\n")
 
-        error!({status: 'error', message: ex.message}, 401)
-      rescue Exception => e
-        Rails.logger.info "---------> Grocery::V1::Item /highlights "
-        Rails.logger.error e.inspect
-        Rails.logger.error e.backtrace.join("\n")
-
-        error!({status: 'error', message: e.message}, 500)
+        error!({status: 'error', message: ex.message}, 500)
       end
     end
 
@@ -176,13 +146,7 @@ class Grocery::V1::Item < Grape::API
         Rails.logger.error ex.inspect
         Rails.logger.error ex.backtrace.join("\n")
 
-        error!({status: 'error', message: ex.message}, 401)
-      rescue Exception => e
-        Rails.logger.info "---------> Grocery::V1::Item /fetch/not_matched_store "
-        Rails.logger.error e.inspect
-        Rails.logger.error e.backtrace.join("\n")
-
-        error!({status: 'error', message: e.message}, 500)
+        error!({status: 'error', message: ex.message}, 500)
       end
     end
 
@@ -205,13 +169,7 @@ class Grocery::V1::Item < Grape::API
         Rails.logger.error ex.inspect
         Rails.logger.error ex.backtrace.join("\n")
 
-        error!({status: 'error', message: ex.message}, 401)
-      rescue Exception => e
-        Rails.logger.info "---------> Grocery::V1::Item /search "
-        Rails.logger.error e.inspect
-        Rails.logger.error e.backtrace.join("\n")
-
-        error!({status: 'error', message: e.message}, 500)
+        error!({status: 'error', message: ex.message}, 500)
       end
     end
 
@@ -235,13 +193,7 @@ class Grocery::V1::Item < Grape::API
         Rails.logger.error ex.inspect
         Rails.logger.error ex.backtrace.join("\n")
 
-        error!({status: 'error', message: ex.message}, 401)
-      rescue Exception => e
-        Rails.logger.info "---------> Grocery::V1::Item "
-        Rails.logger.error e.inspect
-        Rails.logger.error e.backtrace.join("\n")
-
-        error!({status: 'error', message: e.message}, 500)
+        error!({status: 'error', message: ex.message}, 500)
       end
     end
 

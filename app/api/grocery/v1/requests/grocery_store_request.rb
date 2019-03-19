@@ -15,6 +15,8 @@ module Grocery::V1::Requests
 
       grocery_params.merge!({address_attributes: AddressRequest.call(params[:address])}) if params[:address].present?
 
+      p grocery_params
+
       grocery_params
     end
 

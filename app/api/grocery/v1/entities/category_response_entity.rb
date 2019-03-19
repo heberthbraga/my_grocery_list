@@ -4,6 +4,7 @@ module Grocery::V1::Entities
     expose :id,            documentation: { type: 'Integer', desc: 'Grocery Store ID' }
     expose :name,          documentation: { type: 'String', desc: 'Category Name' }
     expose :description,   documentation: { type: 'String', desc: 'Category Description' }
+    expose :parent_id,     documentation: { type: 'Integer', desc: 'Parent Category Id' }
     expose :subcategories, documentation: { type: 'Array', desc: 'Category Description' }, with: self
     expose(:subcategory,   documentation: { type: 'Boolean', desc: 'Check if subcategory'}) do |category, ops|
       category.subcategory?

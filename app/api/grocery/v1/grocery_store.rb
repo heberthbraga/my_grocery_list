@@ -38,13 +38,7 @@ class Grocery::V1::GroceryStore < Grape::API
         Rails.logger.error ex.inspect
         Rails.logger.error ex.backtrace.join("\n")
 
-        error!({status: 'error', message: ex.message}, 401)
-      rescue Exception => e
-        Rails.logger.info "---------> Grocery::V1::GroceryStore "
-        Rails.logger.error e.inspect
-        Rails.logger.error e.backtrace.join("\n")
-
-        error!({status: 'error', message: e.message}, 500)
+        error!({status: 'error', message: ex.message}, 500)
       end
     end
 
@@ -65,13 +59,7 @@ class Grocery::V1::GroceryStore < Grape::API
         Rails.logger.error ex.inspect
         Rails.logger.error ex.backtrace.join("\n")
 
-        error!({status: 'error', message: ex.message}, 401)
-      rescue Exception => e
-        Rails.logger.info "---------> Grocery::V1::GroceryStore "
-        Rails.logger.error e.inspect
-        Rails.logger.error e.backtrace.join("\n")
-
-        error!({status: 'error', message: e.message}, 500)
+        error!({status: 'error', message: ex.message}, 500)
       end
     end
 
@@ -92,13 +80,7 @@ class Grocery::V1::GroceryStore < Grape::API
         Rails.logger.error ex.inspect
         Rails.logger.error ex.backtrace.join("\n")
 
-        error!({status: 'error', message: ex.message}, 401)
-      rescue Exception => e
-        Rails.logger.info "---------> Grocery::V1::GroceryStore "
-        Rails.logger.error e.inspect
-        Rails.logger.error e.backtrace.join("\n")
-
-        error!({status: 'error', message: e.message}, 500)
+        error!({status: 'error', message: ex.message}, 500)
       end
     end
 
@@ -128,12 +110,6 @@ class Grocery::V1::GroceryStore < Grape::API
         grocery_store = grocery_store_repository.update params[:id], request
 
         present grocery_store, with: Grocery::V1::Entities::GroceryStoreResponseEntity
-      rescue ExceptionService => ex
-        Rails.logger.info "---------> Grocery::V1::GroceryStore "
-        Rails.logger.error ex.inspect
-        Rails.logger.error ex.backtrace.join("\n")
-
-        error!({status: 'error', message: ex.message}, 401)
       rescue Exception => e
         Rails.logger.info "---------> Grocery::V1::GroceryStore "
         Rails.logger.error e.inspect
@@ -163,13 +139,7 @@ class Grocery::V1::GroceryStore < Grape::API
         Rails.logger.error ex.inspect
         Rails.logger.error ex.backtrace.join("\n")
 
-        error!({status: 'error', message: ex.message}, 401)
-      rescue Exception => e
-        Rails.logger.info "---------> Grocery::V1::GroceryStore "
-        Rails.logger.error e.inspect
-        Rails.logger.error e.backtrace.join("\n")
-
-        error!({status: 'error', message: e.message}, 500)
+        error!({status: 'error', message: ex.message}, 500)
       end
     end
   end
