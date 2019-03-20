@@ -7,5 +7,13 @@ class GroceryItem < ApplicationRecord
   validates :item, presence: true
   validates :grocery_store, presence: true
 
+  has_paper_trail :on => [:update, :destroy]
+
+  scope :versions, -> { PaperTrail::Version.where(item_type: 'GroceryItem') }
+
   default_scope { order('price ASC') }
+
+  def get_last_version
+    self.versions.last
+  end
 end
