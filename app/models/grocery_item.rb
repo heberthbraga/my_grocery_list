@@ -9,9 +9,18 @@ class GroceryItem < ApplicationRecord
 
   has_paper_trail :on => [:update, :destroy]
 
-  scope :versions, -> { PaperTrail::Version.where(item_type: 'GroceryItem') }
+  scope :grouped_versions, -> { PaperTrail::Version.where(item_type: 'GroceryItem') }
 
   default_scope { order('price ASC') }
+
+  class << self
+    def versions_by_item item_id
+      grouped_versions.collect do |version|
+        target_object = version.reify
+        target_object if target_object && target_object.item_id === item_id
+      end.compact
+    end
+  end
 
   def get_last_version
     self.versions.last

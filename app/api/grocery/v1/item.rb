@@ -48,7 +48,7 @@ class Grocery::V1::Item < Grape::API
 
         present items, with: Grocery::V1::Entities::ItemResponseEntity
       rescue ExceptionService => ex
-        Rails.logger.info "---------> Grocery::V1::Item "
+        Rails.logger.info "---------> Grocery::V1::Item /"
         Rails.logger.error ex.inspect
         Rails.logger.error ex.backtrace.join("\n")
 
@@ -189,7 +189,7 @@ class Grocery::V1::Item < Grape::API
   
         present item, with: Grocery::V1::Entities::ItemResponseEntity
       rescue ExceptionService => ex
-        Rails.logger.info "---------> Grocery::V1::Item "
+        Rails.logger.info "---------> Grocery::V1::Item /delete "
         Rails.logger.error ex.inspect
         Rails.logger.error ex.backtrace.join("\n")
 
@@ -197,5 +197,22 @@ class Grocery::V1::Item < Grape::API
       end
     end
 
+    desc "Items history"
+    get "/history", http_codes: [
+      [200, "Ok"],
+      [500, "Internal Server Error"]
+    ] do
+      begin
+        item_repository = ItemRepository.new
+        
+        item_repository.fetch_history
+      rescue ExceptionService => ex
+        Rails.logger.info "---------> Grocery::V1::Item /fetch_history "
+        Rails.logger.error ex.inspect
+        Rails.logger.error ex.backtrace.join("\n")
+
+        error!({status: 'error', message: ex.message}, 500)
+      end
+    end
   end
 end
