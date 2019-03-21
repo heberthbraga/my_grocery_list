@@ -197,15 +197,15 @@ class Grocery::V1::Item < Grape::API
       end
     end
 
-    desc "Items history"
-    get "/history", http_codes: [
+    desc "Item history"
+    get "/fetch/:id/history", http_codes: [
       [200, "Ok"],
       [500, "Internal Server Error"]
     ] do
       begin
         item_repository = ItemRepository.new
         
-        item_repository.fetch_history
+        item_repository.fetch_history params[:id]
       rescue ExceptionService => ex
         Rails.logger.info "---------> Grocery::V1::Item /fetch_history "
         Rails.logger.error ex.inspect

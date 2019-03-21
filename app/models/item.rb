@@ -37,11 +37,15 @@ class Item < ApplicationRecord
   end
 
   def history
-    {
-      item_id: self.id,
-      item_name: self.name,
-      history: grocery_items_history
-    }
+    history = grocery_items_history
+
+    unless history.empty?
+      {
+        item_id: self.id,
+        item_name: self.name,
+        history: history
+      }
+    end
   end
 
 private
