@@ -25,11 +25,11 @@ class ItemRepository
     Item.search keyword
   end
 
-  def fetch_history
-    items_history = Item.all.collect{|item| item.history unless item.history[:history].empty? }.compact
+  def fetch_history item_id
+    item = Item.find(item_id)
 
-    Rails.logger.debug "=======> ItemRepository#fetch_history = Fetching history for #{items_history.size} item(s)"
+    Rails.logger.debug "=======> ItemRepository#fetch_history = Fetching history for Item #{item}"
 
-    items_history
+    item.history
   end
 end

@@ -15,7 +15,6 @@ class Grocery::V1::Category < Grape::API
     end
     post "/", http_codes: [
       [200, "Ok"],
-      [401, "Unauthorized"],
       [404, "Not Found"],
       [500, "Internal Server Error"]
     ] do
@@ -38,7 +37,6 @@ class Grocery::V1::Category < Grape::API
     desc "Fetch all active categories"
     get "/", http_codes: [
       [200, "Ok"],
-      [401, "Unauthorized"],
       [500, "Internal Server Error"]
     ] do
       begin
@@ -83,7 +81,6 @@ class Grocery::V1::Category < Grape::API
     end
     put "/:id", http_codes: [
       [200, "Ok"],
-      [401, "Unauthorized"],
       [404, "Not Found"],
       [500, "Internal Server Error"]
     ] do
@@ -106,7 +103,6 @@ class Grocery::V1::Category < Grape::API
     desc "Fetch all active parent categories"
     get "/fetch/parents", http_codes: [
       [200, "Ok"],
-      [401, "Unauthorized"],
       [500, "Internal Server Error"]
     ] do
       begin
@@ -129,7 +125,6 @@ class Grocery::V1::Category < Grape::API
     end
     delete "/:id", http_codes: [
       [200, "Ok"],
-      [401, "Unauthorized"],
       [404, "Not Found"],
       [500, "Internal Server Error"]
     ] do
@@ -147,5 +142,22 @@ class Grocery::V1::Category < Grape::API
       end
     end
 
+    desc "Fetch items history grouped by categories"
+    get "/fetch/items_history", http_codes: [
+      [200, "Ok"],
+      [500, "Internal Server Error"]
+    ] do
+      begin
+        category_repository = CategoryRepository.new
+        
+        category_repository.fetch_items_history
+      rescue ExceptionService => ex
+        Rails.logger.info "---------> Grocery::V1::Category "
+        Rails.logger.error ex.inspect
+        Rails.logger.error ex.backtrace.join("\n")
+
+        error!({status: 'error', message: ex.message}, 500)
+      end
+    end
   end
 end

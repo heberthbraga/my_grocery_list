@@ -9,4 +9,13 @@ class CategoryRepository
 
     parent_categories
   end
+
+  def fetch_items_history
+    categories_items_history = Category.all.collect{|category| category.items_history }
+      .reject{|item| item[:items_history].empty? }
+
+    Rails.logger.debug "CategoryRepository#fetch_items_history = Fetching items history #{categories_items_history.size} Category(ies)"
+  
+    categories_items_history
+  end
 end

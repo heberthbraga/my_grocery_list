@@ -15,4 +15,11 @@ class Category < ApplicationRecord
   def subcategory?
     self.parent.present?
   end
+
+  def items_history
+    {
+      name: self.name,
+      items_history: self.items.collect{|item| item.history }.compact
+    }
+  end
 end
