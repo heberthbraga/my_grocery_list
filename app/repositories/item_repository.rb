@@ -24,4 +24,12 @@ class ItemRepository
     
     Item.search keyword
   end
+
+  def fetch_history
+    items_history = Item.all.collect{|item| item.history unless item.history[:history].empty? }.compact
+
+    Rails.logger.debug "=======> ItemRepository#fetch_history = Fetching history for #{items_history.size} item(s)"
+
+    items_history
+  end
 end

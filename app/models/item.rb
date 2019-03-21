@@ -36,10 +36,34 @@ class Item < ApplicationRecord
     self.grocery_items.collect{|grocery_item| { store: grocery_item.grocery_store.name, price: grocery_item.price } }
   end
 
+  def history
+    {
+      item_id: self.id,
+      item_name: self.name,
+      history: grocery_items_history
+    }
+  end
+
 private
 
   def map_categories
     unmatched_category_ids = self.category_ids - self.categories.pluck(:id)
     unmatched_category_ids.each{ |category_id| self.item_categories.build(category_id: category_id) }
+  end
+
+  def grocery_items_history
+    grocery_items_history = self.grocery_items.to_a | GroceryItem.versions_by_item(self.id)
+
+    grocery_items_history.group_by{|grocery_item| grocery_item.grocery_store.name }
+      .map do |key, grocery_items|
+        {
+          "#{key}": grocery_items.map do |grocery_item| 
+            { 
+              price: grocery_item.price, 
+              date: grocery_item.created_at.strftime("%B %d, %Y") 
+            } 
+          end
+        }
+      end
   end
 end
