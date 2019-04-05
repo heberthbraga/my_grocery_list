@@ -24,12 +24,4 @@ class ItemRepository
     
     Item.search keyword
   end
-
-  def fetch_history item_id
-    item = Item.find(item_id)
-
-    Rails.logger.debug "=======> ItemRepository#fetch_history = Fetching history for Item #{item}"
-
-    item.history
-  end
 end
